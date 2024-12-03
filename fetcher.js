@@ -91,14 +91,18 @@ async function updateMongoDB(users) {
                 let streak = parseInt(document.streak || 0);
                 const prevSolved = document.solved?.[yesterdayDate];
                 let currSolved = prevSolved ;
+                if (prevSolved || 0 < tasks) {
+                    console.log([prevSolved , tasks])
 
-                if (prevSolved !== undefined && prevSolved < tasks) {
-                    streak = document.prevStreak + 1;
+                    streak =  (document.questionSolved < tasks) ?  document.prevStreak + 1 : 0;
+                    console.log(streak);
+                    
                     currSolved = tasks;
                 } else {
                     streak = 0;
                 }
-
+                console.log(streak);
+                
                 document.solved = document.solved || {};
                 document.solved[todayDate] = currSolved ?? tasks;
                 

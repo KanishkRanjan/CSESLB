@@ -80,8 +80,11 @@ app.get("/", async (req, res) => {
 });
 
 
-app.get("/profile" , async (req , res) => {
+app.get("/profile/:username" , async (req , res) => {
     try {
+        const user = await User.findOne({"username" : req.params.username})
+        console.log(user);
+        
         res.render("profile")
 
     }
@@ -119,6 +122,8 @@ app.use((err, req, res, next) => {
 cron.schedule('0 */3 * * *', async () => {
     console.log('Running scheduled update');
     try {
+        const username = req.params.username ; 
+        const users = await User.findOne({"username" : username});
         await updateLeaderboard();
     } catch (error) {
         console.error('Scheduled update failed:', error);

@@ -14,7 +14,7 @@ const graphContainers = [
     const dayElement = document.createElement('div');
     dayElement.className = 'day';
     // Data regarding the day 
-    const activityLevel = Math.floor(Math.random() * 5);
+    const activityLevel =4;
 
 
 
