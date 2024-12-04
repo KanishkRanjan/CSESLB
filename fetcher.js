@@ -92,19 +92,15 @@ async function updateMongoDB(users) {
                 const prevSolved = document.solved?.[yesterdayDate];
                 let currSolved = prevSolved ;
                 if (prevSolved || 0 < tasks) {
-                    console.log([prevSolved , tasks])
-
-                    streak =  (document.questionSolved < tasks) ?  document.prevStreak + 1 : 0;
-                    console.log(streak);
-                    
+                    streak = document.prevStreak +  (document.questionSolved < tasks ) ?   1 : 0;
                     currSolved = tasks;
                 } else {
                     streak = 0;
                 }
-                console.log(streak);
-                
                 document.solved = document.solved || {};
-                document.solved[todayDate] = currSolved ?? tasks;
+                document.solved[todayDate] = currSolved || tasks;
+                
+                console.log(document.prevStreak +  (document.questionSolved < tasks ) ?   1 : 0);
                 
                 await collection.updateOne(
                     { username: user },
@@ -113,7 +109,7 @@ async function updateMongoDB(users) {
                             solved: document.solved,
                             streak: streak,
                             questionSolved: tasks,
-                            prevStreak: document.streak  || 0
+                            prevStreak: (prevSolved   < tasks) ? streak : document.prevStreak,
                         }
                     }
                 );

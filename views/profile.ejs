@@ -12,7 +12,7 @@
 
 <body>
   <div class="profile_card">
-    <h1 class="rubik-h">Neel Verma</h1>
+    <h1 class="rubik-h"><%= username %></h1>
     <img src="../images/profile.jpg" class="avatar-img">
     <p class="rubik-p">Role:</p>
     <h2 class="rubik-h">Executive</h2>
@@ -86,14 +86,40 @@
       <div class="grid-item">
         <h2 class="rubik-hmain3">CSES</h2>
         <div style="display: flex;">
-            <div class="graph-container" id="cses-graph-container"></div>
+          <div class="graph-container" id="cses-graph-container">
+            <% 
+              const startDate = new Date('2024/01/01');
+              const endDate = new Date('2024/12/31');
+              let currentDate = startDate;
+
+              const formatter = new Intl.DateTimeFormat('en-IN', { timeZone: "Asia/Kolkata",  day: '2-digit', month: '2-digit', year: 'numeric' });
+              const formattedDate = formatter.format(startDate);
+              
+              while (currentDate <= endDate) { 
+                const preDate = new Date(currentDate).setDate(currentDate.getDate()-1)
+                let prevSolved = 0 ; 
+                let currSolved =  0 ; 
+                if (formatter.format(preDate).trim() in solvedHistory)
+                  prevSolved = parseInt(solvedHistory[formatter.format(preDate).trim()])
+
+                if (formatter.format(currentDate).trim() in solvedHistory )
+                  currSolved = parseInt(solvedHistory[formatter.format(currentDate).trim()])
+            %>
+              <div class="day" data-count="<%= (prevSolved < currSolved) ? 4 : 0 %>">
+                <div class="tooltip"><%= currentDate.toDateString() %></div>
+              </div>
+            <% 
+              currentDate.setDate(currentDate.getDate() + 1); 
+              } 
+            %>
+          </div>
           <canvas id="cses-graph"></canvas>
         </div>
       </div>
+      
+
     </div>
   </div>
-
-  <script src="../script.js"></script>
 </body>
 
 </html>
