@@ -99,9 +99,7 @@ async function updateMongoDB(users) {
                 }
                 document.solved = document.solved || {};
                 document.solved[todayDate] = currSolved || tasks;
-                
-                console.log(document.prevStreak +  (document.questionSolved < tasks ) ?   1 : 0);
-                
+                                
                 await collection.updateOne(
                     { username: user },
                     {

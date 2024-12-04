@@ -118,15 +118,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-// Schedule the update every 3 hours
-cron.schedule('0 */3 * * *', async () => {
-    console.log('Running scheduled update');
-    try {
-        await updateLeaderboard();
-    } catch (error) {
-        console.error('Scheduled update failed:', error);
-    }
-});
 
 // Start server
 const startServer = async () => {
@@ -144,5 +135,5 @@ const startServer = async () => {
         console.log(`Server is 2 running on port ${port}`);
     });
 };
-// setInterval(updateLeaderboard, 3600000);
+setInterval(updateLeaderboard, 3600000);
 startServer();
